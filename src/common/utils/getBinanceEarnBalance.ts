@@ -2,6 +2,7 @@ import axios from 'axios'
 import { env } from './envConfig'
 import dayjs from 'dayjs'
 import { encryptHmac } from './encryptHmac'
+import fs from 'fs'
 
 const API_KEY = env.BINANCE_API_KEY
 const API_SECRET = env.BINANCE_API_SECRET
@@ -65,7 +66,8 @@ async function fetchUserSubscriptionRecord(
       timeInDate: dayjs(item.time).format('YYYY-MM-DD HH:mm:ss'),
     }))
 
-    console.log(`Billy191's Earnings:`, data)
+    console.log(`Billy191's Earn Subscription Record:`, data)
+    //fs.writeFileSync('subscriptionRecord.json', JSON.stringify(data, null, 2))
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error fetching user assets:', error.response?.data)
@@ -120,6 +122,66 @@ async function fetchUserRewardsHistory(
     }))
 
     console.log(`Billy191's Earning Rewards:`, data)
+    //fs.writeFileSync('rewardsRecord.json', JSON.stringify(data, null, 2))
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error fetching user assets:', error.response?.data)
+    } else {
+      console.error('Error fetching user assets:', error)
+    }
+  }
+}
+
+async function fetchUserRedemptionRecord(
+  timestamp: number,
+  asset?: string,
+  productId?: string,
+  current?: number,
+  size?: number,
+  recvWindow: number = 5000,
+  startTime?: number,
+  endTime?: number
+): Promise<void> {
+  const queryParams: QueryUserSubscriptionRecordParams = { timestamp }
+
+  Object.assign(queryParams, {
+    ...(asset && { asset }),
+    ...(productId && { productId }),
+    ...(current && { current }),
+    ...(size && { size }),
+    ...(recvWindow && { recvWindow }),
+    startTime,
+    endTime,
+  })
+
+  const queryString = new URLSearchParams(queryParams as any).toString()
+
+  const signatureString = encryptHmac(queryString, API_SECRET)
+
+  queryParams.signature = signatureString
+
+  const queryStringWithSignature = new URLSearchParams(
+    queryParams as any
+  ).toString()
+
+  try {
+    const response = await axios.get<any>(
+      `${BASE_URL}/sapi/v1/simple-earn/flexible/history/redemptionRecord`,
+      {
+        params: queryParams,
+        headers: {
+          'X-MBX-APIKEY': API_KEY,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    )
+    const data = response.data.rows.map((item: any) => ({
+      ...item,
+      timeInDate: dayjs(item.time).format('YYYY-MM-DD HH:mm:ss'),
+    }))
+
+    console.log(`Billy191's Earning Redemptions Record:`, data)
+    //fs.writeFileSync('redemptionRecord.json', JSON.stringify(data, null, 2))
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error fetching user assets:', error.response?.data)
@@ -134,14 +196,59 @@ const startTime = dayjs('2024-12-27').valueOf()
 const endTime = dayjs(startTime).add(10, 'day').valueOf()
 const timestamp = dayjs().valueOf()
 
-fetchUserSubscriptionRecord(
-  timestamp,
-  'USDT',
-  undefined,
-  undefined,
-  undefined,
-  5000,
-  startTime,
-  endTime
-)
-fetchUserRewardsHistory(timestamp, undefined, 'USDT', startTime, endTime, 'ALL')
+// fetchUserSubscriptionRecord(
+//   timestamp,
+//   'USDT',
+//   undefined,
+//   undefined,
+//   undefined,
+//   5000,
+//   startTime,
+//   endTime
+// )
+// fetchUserRedemptionRecord(
+//   timestamp,
+//   'USDT',
+//   undefined,
+//   undefined,
+//   undefined,
+//   5000,
+//   startTime,
+//   endTime
+// )
+// fetchUserRewardsHistory(timestamp, undefined, 'USDT', startTime, endTime, 'ALL')
+
+const fetchAll = Promise.all([
+  fetchUserSubscriptionRecord(
+    timestamp,
+    'USDT',
+    undefined,
+    undefined,
+    undefined,
+    5000,
+    startTime,
+    endTime
+  ),
+  fetchUserRedemptionRecord(
+    timestamp,
+    'USDT',
+    undefined,
+    undefined,
+    undefined,
+    5000,
+    startTime,
+    endTime
+  ),
+  fetchUserRewardsHistory(
+    timestamp,
+    undefined,
+    'USDT',
+    startTime,
+    endTime,
+    'ALL'
+  ),
+])
+
+fetchAll.then(() => {
+  console.log('All fetches completed')
+})
