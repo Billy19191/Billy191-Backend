@@ -13,10 +13,4 @@ export const env = cleanEnv(process.env, {
   CORS_ORIGIN: str({ devDefault: testOnly('http://localhost:3000') }),
   COMMON_RATE_LIMIT_MAX_REQUESTS: num({ devDefault: testOnly(1000) }),
   COMMON_RATE_LIMIT_WINDOW_MS: num({ devDefault: testOnly(1000) }),
-  BINANCE_API_KEY: str(),
-  BINANCE_API_SECRET: str(),
-  BINANCE_API_BASE_URL: str({
-    devDefault: testOnly('https://api.binance.com'),
-    default: 'https://api.binance.com',
-  }),
 })
