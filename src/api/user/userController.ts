@@ -43,11 +43,16 @@ class UserController {
       'Access-Control-Expose-Headers',
       'date, etag, access-control-allow-origin, access-control-allow-credentials'
     )
-    const token = login.responseObject.token
+
     const cookies = login.responseObject.cookies
 
     cookies.forEach((cookie: any) => {
-      res.cookie(cookie.name, cookie.value)
+      res.cookie(cookie.name, cookie.value, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        httpOnly: false,
+        secure: true,
+        sameSite: 'none',
+      })
     })
 
     res.status(200).send('Login successful')
