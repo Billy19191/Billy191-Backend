@@ -22,7 +22,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: [env.CORS_ORIGIN, 'http://localhost:3000'],
+    origin: [
+      env.CORS_ORIGIN,
+      'http://localhost:3000',
+      'https://*.billy191.live',
+    ],
     credentials: true,
   })
 )
