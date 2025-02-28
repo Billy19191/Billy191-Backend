@@ -9,7 +9,11 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm i -g pnpm
 
+# Install dependencies
 RUN pnpm i
+
+# Allow only pnpm
+RUN pnpm run preinstall
 
 # Bundle app source
 COPY . .
@@ -21,4 +25,4 @@ RUN pnpm run build
 EXPOSE 8080
 
 # Start the app
-CMD pnpm run dev
+CMD ["pnpm", "dev"]

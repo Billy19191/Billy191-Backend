@@ -24,6 +24,8 @@
     "@asteasolutions/zod-to-openapi": "^7.3.0",
     "@bgd-labs/aave-address-book": "^4.7.3",
     "@prisma/client": "^6.1.0",
+    "axios": "^1.8.1",
+    "axios-cookiejar-support": "^5.0.5",
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
@@ -36,6 +38,7 @@
     "pino": "^9.6.0",
     "pino-http": "^10.3.0",
     "swagger-ui-express": "^5.0.1",
+    "tough-cookie": "^5.1.1",
     "zod": "^3.24.1"
   },
   "devDependencies": {
