@@ -53,7 +53,7 @@ class UserController {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'none',
         path: '/',
-        domain: '.leb2.billy191.live', //Allows cookies to be accessible across subdomains
+        domain: process.env.NODE_ENV === 'production' ? 'billy191.live' : '',
       })
     })
     handleServiceResponse(login, res)
