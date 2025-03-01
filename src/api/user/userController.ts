@@ -2,7 +2,7 @@ import type { Request, RequestHandler, Response } from 'express'
 
 import { userService } from '@/api/user/userService'
 import { handleServiceResponse } from '@/common/utils/httpHandlers'
-
+import dayjs from 'dayjs'
 class UserController {
   public getUsers: RequestHandler = async (
     _req: Request,
@@ -48,10 +48,10 @@ class UserController {
 
     cookies.forEach((cookie: any) => {
       res.cookie(cookie.name, cookie.value, {
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-        httpOnly: false,
+        expires: dayjs().add(13, 'day').toDate(),
+        httpOnly: true,
         secure: true,
-        sameSite: 'none',
+        sameSite: 'strict',
       })
     })
 
