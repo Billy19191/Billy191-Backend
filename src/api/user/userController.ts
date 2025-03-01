@@ -50,10 +50,9 @@ class UserController {
       res.cookie(cookie.name, cookie.value, {
         expires: dayjs().add(13, 'day').toDate(),
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'none',
         path: '/',
-        domain: 'leb2.billy191.live',
       })
     })
     handleServiceResponse(login, res)
