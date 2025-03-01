@@ -52,6 +52,8 @@ class UserController {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
+        path: '/',
+        domain: 'leb2.billy191.live',
       })
     })
     handleServiceResponse(login, res)
