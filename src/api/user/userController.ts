@@ -54,8 +54,33 @@ class UserController {
         sameSite: 'strict',
       })
     })
+    handleServiceResponse(login, res)
+  }
 
-    res.status(200).send('Login successful')
+  public getListOfAssignments: RequestHandler = async (
+    _req: Request,
+    res: Response
+  ): Promise<void> => {
+    const classId = Number.parseInt(_req.query.classId as string, 10)
+    const studentId = Number.parseInt(_req.query.studentId as string, 10)
+    const cookies = _req.headers.cookie as string
+    // console.log(cookies)
+    // console.log(classId)
+    const serviceResponse = await userService.getListOfAssignments(
+      classId,
+      studentId,
+      cookies
+    )
+    handleServiceResponse(serviceResponse, res)
+  }
+
+  public getAllClassesInfo: RequestHandler = async (
+    _req: Request,
+    res: Response
+  ): Promise<void> => {
+    const cookies = _req.headers.cookie as string
+    const serviceResponse = await userService.getAllClassesInfo(cookies)
+    handleServiceResponse(serviceResponse, res)
   }
 }
 

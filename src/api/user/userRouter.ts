@@ -29,5 +29,7 @@ userRegistry.registerPath({
   responses: createApiResponse(UserSchema, 'Success'),
 })
 
-userRouter.get('/:id', validateRequest(GetUserSchema), userController.getUser)
+// userRouter.get('/:id', validateRequest(GetUserSchema), userController.getUser)
 userRouter.post('/login', userController.login)
+userRouter.get('/getListOfAssignments', userController.getListOfAssignments)
+userRouter.get('/getAllClassesInfo', userController.getAllClassesInfo)
