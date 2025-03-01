@@ -27,6 +27,7 @@ app.use(
       env.CORS_ORIGIN,
       'http://localhost:3000',
       'https://*.billy191.live',
+      'https://www.leb2.billy191.live',
     ],
     credentials: true,
   })
