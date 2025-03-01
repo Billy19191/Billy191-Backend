@@ -51,7 +51,7 @@ class UserController {
         expires: dayjs().add(13, 'day').toDate(),
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'none',
       })
     })
     handleServiceResponse(login, res)
