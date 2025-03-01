@@ -50,10 +50,10 @@ class UserController {
       res.cookie(cookie.name, cookie.value, {
         expires: dayjs().add(13, 'day').toDate(),
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true, // Set to true if using HTTPS
         sameSite: 'none',
         path: '/',
-        domain: process.env.NODE_ENV === 'production' ? 'billy191.live' : '',
+        domain: process.env.NODE_ENV === 'production' ? '.billy191.live' : '',
       })
     })
     handleServiceResponse(login, res)
