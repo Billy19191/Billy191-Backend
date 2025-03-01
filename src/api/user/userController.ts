@@ -48,12 +48,10 @@ class UserController {
 
     cookies.forEach((cookie: any) => {
       res.cookie(cookie.name, cookie.value, {
-        expires: dayjs().add(13, 'day').toDate(),
+        maxAge: 13 * 24 * 60 * 60 * 1000, // 13 days in milliseconds
         httpOnly: true,
-        secure: true, // Set to true if using HTTPS
-        sameSite: 'none',
+        secure: true,
         path: '/',
-        domain: process.env.NODE_ENV === 'production' ? '.billy191.live' : '',
       })
     })
     handleServiceResponse(login, res)

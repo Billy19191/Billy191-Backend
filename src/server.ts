@@ -28,6 +28,7 @@ app.use(
       'http://localhost:3000',
       'https://*.billy191.live',
       'https://www.leb2.billy191.live',
+      'https://leb2.billy191.live',
     ],
     credentials: true,
   })
