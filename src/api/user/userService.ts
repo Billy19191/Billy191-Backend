@@ -78,12 +78,7 @@ export class UserService {
           maxRedirects: 5,
         })
       )
-      // console.log(
-      //   'Logging in with username:',
-      //   userName,
-      //   'and password',
-      //   passWord
-      // )
+
       const loginData = await client.post(
         'https://leb2-mcs-api-production.leb2.org/public/login/v1/login',
         {
@@ -95,7 +90,6 @@ export class UserService {
       const loginResponse = loginData.data
       const jwtToken = loginResponse.token
 
-      // Second request: Use the token to get the session
       const sessionResponse = await client.get(
         `https://app.leb2.org/login?token=${jwtToken}`
       )

@@ -25,7 +25,6 @@ class UserController {
     _req: Request,
     res: Response
   ): Promise<void> => {
-    console.log(_req.body.username, _req.body.password)
     const login = await userService.login(
       _req.body.username,
       _req.body.password
@@ -36,7 +35,7 @@ class UserController {
       return
     }
 
-    res.set('Access-Control-Allow-Origin', _req.headers.origin) //req.headers.origin
+    res.set('Access-Control-Allow-Origin', _req.headers.origin)
     res.set('Access-Control-Allow-Credentials', 'true')
 
     res.set(
@@ -57,14 +56,6 @@ class UserController {
       })
     })
 
-    // res.cookie('debug_cookie', 'test', {
-    //   httpOnly: false,
-    //   secure: true,
-    //   sameSite: 'none',
-    //   expires: new Date(Date.now() + 86400000),
-    //   path: '/',
-    //   domain: '.billy191.live',
-    // })
     handleServiceResponse(login, res)
   }
 
@@ -75,8 +66,6 @@ class UserController {
     const classId = Number.parseInt(_req.query.classId as string, 10)
     const studentId = Number.parseInt(_req.query.studentId as string, 10)
     const cookies = _req.headers.cookie as string
-    // console.log(cookies)
-    // console.log(classId)
     const serviceResponse = await userService.getListOfAssignments(
       classId,
       studentId,
