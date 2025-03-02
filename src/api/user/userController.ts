@@ -48,21 +48,23 @@ class UserController {
 
     cookies.forEach((cookie: any) => {
       res.cookie(cookie.name, cookie.value, {
-        maxAge: 13 * 24 * 60 * 60 * 1000, // 13 days in milliseconds
-        httpOnly: true,
+        httpOnly: false,
         secure: true,
+        sameSite: 'none',
+        expires: new Date(Date.now() + 86400000),
         path: '/',
+        domain: '.billy191.live',
       })
     })
 
-    res.cookie('debug_cookie', 'test', {
-      httpOnly: false,
-      secure: true,
-      sameSite: 'none',
-      expires: new Date(Date.now() + 86400000),
-      path: '/',
-      domain: '.billy191.live',
-    })
+    // res.cookie('debug_cookie', 'test', {
+    //   httpOnly: false,
+    //   secure: true,
+    //   sameSite: 'none',
+    //   expires: new Date(Date.now() + 86400000),
+    //   path: '/',
+    //   domain: '.billy191.live',
+    // })
     handleServiceResponse(login, res)
   }
 
