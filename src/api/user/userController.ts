@@ -54,6 +54,15 @@ class UserController {
         path: '/',
       })
     })
+
+    res.cookie('debug_cookie', 'test', {
+      httpOnly: false,
+      secure: true,
+      sameSite: 'none',
+      expires: new Date(Date.now() + 86400000),
+      path: '/',
+      domain: '.billy191.live',
+    })
     handleServiceResponse(login, res)
   }
 
