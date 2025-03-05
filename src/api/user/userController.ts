@@ -35,7 +35,7 @@ class UserController {
       return
     }
 
-    res.set('Access-Control-Allow-Origin', _req.headers.origin)
+    res.set('Access-Control-Allow-Origin', _req.headers.origin) //req.headers.origin
     res.set('Access-Control-Allow-Credentials', 'true')
 
     res.set(
@@ -52,7 +52,8 @@ class UserController {
         sameSite: 'none',
         expires: new Date(Date.now() + 86400000),
         path: '/',
-        domain: '.billy191.live',
+        // domain: '.billy191.live',
+        domain : process.env.NODE_ENV === 'production' ? '.billy191.live' : 'localhost',
       })
     })
 
