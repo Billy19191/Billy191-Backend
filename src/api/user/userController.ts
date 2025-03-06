@@ -44,6 +44,9 @@ class UserController {
     )
 
     const cookies = login.responseObject.cookies
+    const domain = _req.hostname.includes('localhost')
+      ? 'localhost'
+      : '.billy191.live'
 
     cookies.forEach((cookie: any) => {
       res.cookie(cookie.name, cookie.value, {
@@ -53,7 +56,8 @@ class UserController {
         expires: new Date(Date.now() + 86400000),
         path: '/',
         // domain: '.billy191.live',
-        domain : process.env.NODE_ENV === 'production' ? '.billy191.live' : 'localhost',
+        domain: domain,
+        // domain : process.env.NODE_ENV === 'production' ? '.billy191.live' : 'localhost',
       })
     })
 
